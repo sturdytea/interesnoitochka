@@ -20,6 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        
+        Task {
+            do {
+                let sessionId = try await AnonymousSessionManager.shared.ensureSessionId()
+                print("✅ Anonymous session id:", sessionId)
+            } catch {
+                print("❌ Failed to create anonymous session:", error)
+            }
+        }
+        
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = AuthorizationViewController()
         window.makeKeyAndVisible()
