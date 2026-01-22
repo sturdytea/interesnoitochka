@@ -12,8 +12,16 @@
 import Foundation
 
 struct ChatMessage {
-    let id: Int
+    var id: Int?
+    let localId: UUID
     let text: String
-    let isOutgoing: Bool   // true → синее справа
-    let date: Date
+    let isOutgoing: Bool
+    var date: Date
+    var status: Status
+
+    enum Status {
+        case sending
+        case sent
+        case failed
+    }
 }

@@ -139,7 +139,7 @@ final class ChatCell: UITableViewCell {
         formatter.timeStyle = .short
         titleLabel.text = chat.name
         messageLabel.text = chat.lastMessage
-        dateLabel.text = "∙ " + formatter.string(from: chat.date)
+        dateLabel.text = "∙ только что"/* + formatter.string(from: chat.date)*/
         isRead = true
         if let url = chat.avatarURL {
             URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in

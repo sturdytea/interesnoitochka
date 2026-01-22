@@ -37,12 +37,15 @@ struct MessageDTO: Decodable {
 }
 
 extension MessageDTO {
+
     func toChatMessage(currentUserId: Int) -> ChatMessage {
         ChatMessage(
             id: id,
+            localId: UUID(),
             text: content,
             isOutgoing: senderId == currentUserId,
-            date: ISO8601DateFormatter().date(from: createdAt) ?? Date()
+            date: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
+            status: .sent
         )
     }
 }

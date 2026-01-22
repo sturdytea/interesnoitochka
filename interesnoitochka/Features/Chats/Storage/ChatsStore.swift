@@ -23,6 +23,7 @@ final class ChatsStore {
         name: String,
         username: String,
         message: String,
+        date: Date,
         avatarURL: URL?
     ) {
         let updatedChat = ChatPreview(
@@ -31,7 +32,7 @@ final class ChatsStore {
             name: name,
             username: username,
             lastMessage: message,
-            date: Date(),
+            date: date,
             avatarURL: avatarURL
         )
         

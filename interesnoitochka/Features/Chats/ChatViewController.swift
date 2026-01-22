@@ -18,12 +18,29 @@ final class ChatViewController: UIViewController {
     
     // MARK: - Init
     
-    init(chatId: Int, name: String, avatarURL: URL?) {
-        self.viewModel = ChatViewModel(chatId: chatId)
-        contentView.titleView.configure(name: name, avatarURL: avatarURL)
-        super.init(nibName: nil, bundle: nil)
-    }
+    init(
+        chatId: Int,
+        recipientId: Int,
+        username: String,
+        name: String,
+        avatarURL: URL?
+    ) {
+        self.viewModel = ChatViewModel(
+            chatId: chatId,
+            recipientId: recipientId,
+            name: name,
+            username: username,
+            avatarURL: avatarURL
+        )
 
+        super.init(nibName: nil, bundle: nil)
+
+        contentView.titleView.configure(
+            name: name,
+            avatarURL: avatarURL
+        )
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
