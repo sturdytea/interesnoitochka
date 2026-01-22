@@ -37,6 +37,7 @@ final class ChatsViewController: UIViewController {
             contentView.configure(with: user)
         }
         bind()
+        viewModel.load()
     }
     
     override func viewWillAppear(_ animated: Bool) {

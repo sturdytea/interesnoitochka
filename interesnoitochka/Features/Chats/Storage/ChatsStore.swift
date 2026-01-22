@@ -38,4 +38,8 @@ final class ChatsStore {
         chats.removeAll { $0.userId == userId }
         chats.insert(updatedChat, at: 0)
     }
+    
+    func loadChats(_ chats: [ChatPreview]) {
+        self.chats = chats
+    }
 }

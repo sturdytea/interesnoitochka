@@ -30,24 +30,24 @@ final class ChatViewModel {
     }
 
     func send(text: String) {
-        let message = ChatMessage(
-            id: UUID(),
-            text: text,
-            isOutgoing: true,
-            date: Date()
-        )
-
-        MessagesStore.shared.append(message, for: userId)
-        ChatsStore.shared.upsertChat(
-            userId: userId,
-            name: name,
-            username: username,
-            message: text,
-            avatarURL: avatarURL
-        )
-
-        messages.append(message)
-        onUpdate?()
+//        let message = ChatMessage(
+//            id: UUID(),
+//            text: text,
+//            isOutgoing: true,
+//            date: Date()
+//        )
+//
+//        MessagesStore.shared.append(message, for: userId)
+//        ChatsStore.shared.upsertChat(
+//            userId: userId,
+//            name: name,
+//            username: username,
+//            message: text,
+//            avatarURL: avatarURL
+//        )
+//
+//        messages.append(message)
+//        onUpdate?()
     }
 
     var isEmpty: Bool {

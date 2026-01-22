@@ -9,14 +9,32 @@
 //
     
 
+import Foundation
+
 final class ChatsViewModel {
     
     private let userService = UserService()
+    private let chatsService = ChatsService()
     private(set) var chats: [ChatPreview] = []
     
     var onUserFound: ((SearchUser) -> Void)?
     var onUserNotFound: (() -> Void)?
     var onUpdate: (() -> Void)?
+    
+    func load() {
+        chatsService.fetchChats { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let chats):
+                    self?.chats = chats
+                    ChatsStore.shared.loadChats(chats)
+                case .failure:
+                    self?.chats = []
+                }
+                self?.onUpdate?()
+            }
+        }
+    }
     
     func reload() {
         chats = ChatsStore.shared.chats.sorted {

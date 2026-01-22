@@ -12,7 +12,7 @@
 import Foundation
 
 struct ChatMessage {
-    let id: UUID
+    let id: Int
     let text: String
     let isOutgoing: Bool   // true → синее справа
     let date: Date
