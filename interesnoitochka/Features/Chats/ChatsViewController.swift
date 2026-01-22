@@ -20,6 +20,8 @@ final class ChatsViewController: UIViewController {
         view = contentView
     }
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.tableView.register(
@@ -35,7 +37,6 @@ final class ChatsViewController: UIViewController {
             contentView.configure(with: user)
         }
         bind()
-        bindActions()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,19 +68,6 @@ final class ChatsViewController: UIViewController {
             // пока ничего
             // позже можно alert
         }
-    }
-    private func bindActions() {
-        contentView.searchView.textField.addTarget(
-            self,
-            action: #selector(searchChanged),
-            for: .editingChanged
-        )
-        
-    }
-    
-    @objc private func searchChanged() {
-        let text = contentView.searchView.textField.text ?? ""
-        viewModel.search(text)
     }
 }
 
