@@ -22,6 +22,9 @@ final class ChatCell: UITableViewCell {
         let image = UIImageView()
         image.backgroundColor = .none
         image.clipsToBounds = true
+        image.contentMode = .scaleAspectFill
+        image.layer.borderWidth = 1 / UIScreen.main.scale
+        image.layer.borderColor = UIColor.graphicNeutral.cgColor
         image.layer.cornerRadius = 24
         return image
     }()
@@ -134,9 +137,17 @@ final class ChatCell: UITableViewCell {
         let formatter = DateFormatter()
         formatter.dateStyle = .none
         formatter.timeStyle = .short
-        titleLabel.text = chat.username
+        titleLabel.text = chat.name
         messageLabel.text = chat.lastMessage
         dateLabel.text = "∙ " + formatter.string(from: chat.date)
         isRead = true
+        if let url = chat.avatarURL {
+            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+                guard let data else { return }
+                DispatchQueue.main.async {
+                    self?.profileImageView.image = UIImage(data: data)
+                }
+            }.resume()
+        }
     }
 }

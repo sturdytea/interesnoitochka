@@ -20,6 +20,7 @@ final class ChatsStore {
     
     func upsertChat(
         userId: Int,
+        name: String,
         username: String,
         message: String,
         avatarURL: URL?
@@ -27,6 +28,7 @@ final class ChatsStore {
         let updatedChat = ChatPreview(
             id: chats.first(where: { $0.userId == userId })?.id ?? chats.count + 1,
             userId: userId,
+            name: name,
             username: username,
             lastMessage: message,
             date: Date(),

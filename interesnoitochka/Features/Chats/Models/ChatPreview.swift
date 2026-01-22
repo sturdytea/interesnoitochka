@@ -14,6 +14,7 @@ import Foundation
 struct ChatPreview {
     let id: Int
     let userId: Int
+    let name: String
     let username: String
     let lastMessage: String
     let date: Date

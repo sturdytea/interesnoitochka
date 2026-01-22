@@ -15,6 +15,8 @@ final class ChatView: UIView {
 
     // MARK: - UI
     
+    lazy var titleView = ChatNavigationTitleView()
+    
     lazy var tableView: UITableView = {
         let table = UITableView()
         table.separatorStyle = .none

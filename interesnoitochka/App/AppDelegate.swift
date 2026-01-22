@@ -15,6 +15,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+//    let barButtonAppearance = UIBarButtonItem.appearance()
 
     func application(
         _ application: UIApplication,
@@ -33,6 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: AuthorizationViewController())
         window.rootViewController = navigationController
+        
+        
+        // Make back button custom
+//        let backButton = UIImage(named: "ChevronLeftIcon")
+        
         window.makeKeyAndVisible()
         self.window = window
         return true

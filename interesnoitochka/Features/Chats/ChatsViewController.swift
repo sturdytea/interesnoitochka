@@ -59,7 +59,7 @@ final class ChatsViewController: UIViewController {
             DispatchQueue.main.async {
                 let avatarURL = user.avatar.flatMap { URL(string: $0) }
                 
-                let chatViewController = ChatViewController(userId: user.id, username: user.telegramUsername, avatarURL: avatarURL)
+                let chatViewController = ChatViewController(userId: user.id, name: user.name ?? user.telegramUsername, username: user.telegramUsername, avatarURL: avatarURL)
                 self?.navigationController?.pushViewController(chatViewController, animated: true)
             }
         }
@@ -101,12 +101,13 @@ extension ChatsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chat = viewModel.chats[indexPath.row]
-        let chatVC = ChatViewController(
+        let chatViewController = ChatViewController(
             userId: chat.userId,
+            name: chat.name,
             username: chat.username,
             avatarURL: chat.avatarURL
         )
-        navigationController?.pushViewController(chatVC, animated: true)
+        navigationController?.pushViewController(chatViewController, animated: true)
     }
 }
 

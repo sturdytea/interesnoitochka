@@ -14,14 +14,16 @@ import Foundation
 final class ChatViewModel {
 
     private let userId: Int
+    private let name: String
     private let username: String
     private let avatarURL: URL?
 
     private(set) var messages: [ChatMessage] = []
     var onUpdate: (() -> Void)?
 
-    init(userId: Int, username: String, avatarURL: URL?) {
+    init(userId: Int, name: String, username: String, avatarURL: URL?) {
         self.userId = userId
+        self.name = name
         self.username = username
         self.avatarURL = avatarURL
         self.messages = MessagesStore.shared.messages(for: userId)
@@ -38,6 +40,7 @@ final class ChatViewModel {
         MessagesStore.shared.append(message, for: userId)
         ChatsStore.shared.upsertChat(
             userId: userId,
+            name: name,
             username: username,
             message: text,
             avatarURL: avatarURL

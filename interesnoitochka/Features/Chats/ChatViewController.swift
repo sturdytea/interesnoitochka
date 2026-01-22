@@ -18,8 +18,13 @@ final class ChatViewController: UIViewController {
     
     // MARK: - Init
     
-    init(userId: Int, username: String, avatarURL: URL?) {
-        self.viewModel = ChatViewModel(userId: userId, username: username, avatarURL: avatarURL)
+    init(userId: Int, name: String, username: String, avatarURL: URL?) {
+        self.viewModel = ChatViewModel(userId: userId, name: name, username: username, avatarURL: avatarURL)
+        contentView.titleView.configure(
+            name: name,
+            username: username,
+            avatarURL: avatarURL
+        )
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -28,12 +33,15 @@ final class ChatViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
+    
     override func loadView() {
         view = contentView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.titleView = contentView.titleView
+        navigationItem.largeTitleDisplayMode = .never
         contentView.tableView.dataSource = self
         contentView.tableView.register(
             MessageCell.self,
@@ -41,6 +49,19 @@ final class ChatViewController: UIViewController {
         )
         bind()
         updateUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let barButton = UIBarButtonItem(
+            image: contentView.titleView.backButton,
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        ).hideLiquidGlassEffect()
+        barButton.width = 16
+        navigationItem.leftBarButtonItem = barButton
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func bind() {
@@ -55,6 +76,10 @@ final class ChatViewController: UIViewController {
     private func updateUI() {
         contentView.emptyView.isHidden = !viewModel.isEmpty
         contentView.tableView.reloadData()
+    }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
