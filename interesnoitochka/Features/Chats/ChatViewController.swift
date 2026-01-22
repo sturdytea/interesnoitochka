@@ -95,7 +95,14 @@ extension ChatViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let message = viewModel.messages[indexPath.row]
-        cell.configure(message)
+
+        let isLastInSequence: Bool = {
+            guard indexPath.row < viewModel.messages.count - 1 else { return true }
+            let next = viewModel.messages[indexPath.row + 1]
+            return next.isOutgoing != message.isOutgoing
+        }()
+
+        cell.configure(message, isLastInSequence: isLastInSequence)
         return cell
     }
 }
