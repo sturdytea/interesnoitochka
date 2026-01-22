@@ -18,13 +18,9 @@ final class ChatViewController: UIViewController {
     
     // MARK: - Init
     
-    init(userId: Int, name: String, username: String, avatarURL: URL?) {
-        self.viewModel = ChatViewModel(userId: userId, name: name, username: username, avatarURL: avatarURL)
-        contentView.titleView.configure(
-            name: name,
-            username: username,
-            avatarURL: avatarURL
-        )
+    init(chatId: Int, name: String, avatarURL: URL?) {
+        self.viewModel = ChatViewModel(chatId: chatId)
+        contentView.titleView.configure(name: name, avatarURL: avatarURL)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -49,6 +45,7 @@ final class ChatViewController: UIViewController {
         )
         bind()
         updateUI()
+        viewModel.loadMessages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +64,7 @@ final class ChatViewController: UIViewController {
     private func bind() {
         viewModel.onUpdate = { [weak self] in
             self?.updateUI()
+            self?.contentView.tableView.reloadData()
         }
         contentView.inputViewContainer.onSend = { [weak self] text in
             self?.viewModel.send(text: text)

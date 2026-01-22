@@ -58,12 +58,7 @@ final class ChatsViewController: UIViewController {
             }
         }
         viewModel.onUserFound = { [weak self] user in
-            DispatchQueue.main.async {
-                let avatarURL = user.avatar.flatMap { URL(string: $0) }
-                
-                let chatViewController = ChatViewController(userId: user.id, name: user.name ?? user.telegramUsername, username: user.telegramUsername, avatarURL: avatarURL)
-                self?.navigationController?.pushViewController(chatViewController, animated: true)
-            }
+            // TODO: Finish
         }
         viewModel.onUserNotFound = {
             // пока ничего
@@ -90,12 +85,8 @@ extension ChatsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chat = viewModel.chats[indexPath.row]
-        let chatViewController = ChatViewController(
-            userId: chat.userId,
-            name: chat.name,
-            username: chat.username,
-            avatarURL: chat.avatarURL
-        )
+        
+        let chatViewController = ChatViewController(chatId: chat.id, name: chat.name, avatarURL: chat.avatarURL)
         navigationController?.pushViewController(chatViewController, animated: true)
     }
 }

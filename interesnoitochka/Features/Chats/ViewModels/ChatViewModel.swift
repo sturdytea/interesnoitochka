@@ -13,20 +13,28 @@ import Foundation
 
 final class ChatViewModel {
 
-    private let userId: Int
-    private let name: String
-    private let username: String
-    private let avatarURL: URL?
+    private let messagesService = MessagesService()
+    private let chatId: Int
 
     private(set) var messages: [ChatMessage] = []
     var onUpdate: (() -> Void)?
+    
+    init(chatId: Int) {
+        self.chatId = chatId
+    }
 
-    init(userId: Int, name: String, username: String, avatarURL: URL?) {
-        self.userId = userId
-        self.name = name
-        self.username = username
-        self.avatarURL = avatarURL
-        self.messages = MessagesStore.shared.messages(for: userId)
+    func loadMessages() {
+        messagesService.fetchMessages(chatId: chatId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let messages):
+                    self?.messages = messages
+                case .failure:
+                    self?.messages = []
+                }
+                self?.onUpdate?()
+            }
+        }
     }
 
     func send(text: String) {

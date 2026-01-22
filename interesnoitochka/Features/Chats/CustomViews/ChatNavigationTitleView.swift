@@ -80,7 +80,6 @@ final class ChatNavigationTitleView: UIView {
 
     func configure(
         name: String,
-        username: String,
         avatarURL: URL?
     ) {
         nameLabel.text = name
