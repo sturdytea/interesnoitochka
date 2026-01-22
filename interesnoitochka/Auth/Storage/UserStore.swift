@@ -18,6 +18,7 @@ final class UserStore {
 
     func save(_ profile: UserProfile) {
         self.profile = profile
+        print("Profile saved: \(profile)")
     }
 
     func clear() {

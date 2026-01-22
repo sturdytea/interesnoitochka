@@ -15,10 +15,8 @@ final class AuthorizationViewController: UIViewController {
     
     private let contentView = AuthorizationView()
     private let viewModel = AuthViewModel(
-        wsClient: AuthWebSocketClient(),
-        qrGenerator: QRCodeGenerator()
+        wsClient: AuthWebSocketClient()
     )
-    private var qrViewController: AuthorizationQRViewController?
     
     override func loadView() {
         view = contentView
@@ -51,28 +49,13 @@ final class AuthorizationViewController: UIViewController {
                 guard let self else { return }
                 self.viewModel.startAuth(
                     sessionId: sessionId,
-                    onShowQR: { [weak self] qrImage, url in
+                    onFormURL: { url in
                         DispatchQueue.main.async {
                             print(url)
-                            let viewController = AuthorizationQRViewController(qrImage: qrImage, url: url)
-                            viewController.modalPresentationStyle = .pageSheet
-                            viewController.isModalInPresentation = true
-                            
-                            if let sheet = viewController.sheetPresentationController {
-                                sheet.detents = [.medium(), .large()]
-                                sheet.prefersGrabberVisible = false
-                            }
-                            self?.qrViewController = viewController
-                            self?.present(viewController, animated: true)
+                            UIApplication.shared.open(url)
                         }
                     },
-                    onAuthorized: { [weak self] _ in
-                        DispatchQueue.main.async {
-                            self?.qrViewController?.dismiss(animated: true)
-                            self?.qrViewController = nil
-                            print("✅ User successfully logged in")
-                            self?.openChatsScreen()
-                        }
+                    onAuthorized: { _ in
                     },
                     onError: { error in
                         DispatchQueue.main.async {
@@ -81,10 +64,7 @@ final class AuthorizationViewController: UIViewController {
                     }
                 )},
             onAuthorized: {
-                self.viewModel.loadProfileAndFinishAuth()
-                DispatchQueue.main.async {
-                    self.qrViewController?.dismiss(animated: true)
-                    self.qrViewController = nil
+                self.viewModel.loadProfileAndFinishAuth { profile in
                     print("✅ User successfully logged in")
                     self.openChatsScreen()
                 }

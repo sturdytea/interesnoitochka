@@ -14,19 +14,14 @@ import UIKit
 final class AuthViewModel {
     
     private let wsClient: AuthWebSocketClient
-    private let qrGenerator: QRCodeGenerator
     
-    init(
-        wsClient: AuthWebSocketClient,
-        qrGenerator: QRCodeGenerator
-    ) {
+    init(wsClient: AuthWebSocketClient) {
         self.wsClient = wsClient
-        self.qrGenerator = qrGenerator
     }
     
     func startAuth(
         sessionId: String,
-        onShowQR: (UIImage, URL) -> Void,
+        onFormURL: (URL) -> Void,
         onAuthorized: @escaping (AuthTokens) -> Void,
         onError: @escaping (Error) -> Void
     ) {
@@ -35,26 +30,22 @@ final class AuthViewModel {
             onTokens: onAuthorized,
             onError: onError
         )
-        
         let urlString = telegramAuthURL(sessionId: sessionId)
         guard let url = URL(string: urlString) else { return }
-        
-        if let qr = qrGenerator.generate(from: urlString) {
-            onShowQR(qr, url)
-        }
+        onFormURL(url)
     }
     
     private func telegramAuthURL(sessionId: String) -> String {
         "https://t.me/chatttinnngggbot?start=\(sessionId)"
     }
     
-    func loadProfileAndFinishAuth() {
+    func loadProfileAndFinishAuth(completion: @escaping (UserProfile) -> Void) {
         UserService().fetchMyProfile { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let profile):
                     UserStore.shared.save(profile)
-                    print(profile)
+                    completion(profile)
                 case .failure(let error):
                     print("❌ Failed to load profile:", error)
                 }

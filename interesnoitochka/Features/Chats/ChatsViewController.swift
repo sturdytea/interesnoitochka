@@ -33,6 +33,7 @@ final class ChatsViewController: UIViewController {
         contentView.tableView.estimatedRowHeight = 72
         contentView.tableView.delegate = self
         contentView.searchView.textField.delegate = self
+        print("User check: \(UserStore.shared.profile)")
         if let user = UserStore.shared.profile {
             contentView.configure(with: user)
         }
