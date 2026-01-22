@@ -29,7 +29,9 @@ final class ChatsViewController: UIViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.rowHeight = UITableView.automaticDimension
         contentView.tableView.estimatedRowHeight = 72
-        contentView.configure()
+        if let user = UserStore.shared.profile {
+            contentView.configure(with: user)
+        }
         bind()
         viewModel.load()
     }

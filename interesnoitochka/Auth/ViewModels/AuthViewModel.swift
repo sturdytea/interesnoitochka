@@ -47,5 +47,19 @@ final class AuthViewModel {
     private func telegramAuthURL(sessionId: String) -> String {
         "https://t.me/chatttinnngggbot?start=\(sessionId)"
     }
+    
+    func loadProfileAndFinishAuth() {
+        UserService().fetchMyProfile { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profile):
+                    UserStore.shared.save(profile)
+                    print(profile)
+                case .failure(let error):
+                    print("❌ Failed to load profile:", error)
+                }
+            }
+        }
+    }
 }
 

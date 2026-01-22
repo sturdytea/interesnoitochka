@@ -81,12 +81,13 @@ final class AuthorizationViewController: UIViewController {
                     }
                 )},
             onAuthorized: {
-                    DispatchQueue.main.async {
-                        self.qrViewController?.dismiss(animated: true)
-                        self.qrViewController = nil
-                        print("✅ User successfully logged in")
-                        self.openChatsScreen()
-                    }
+                self.viewModel.loadProfileAndFinishAuth()
+                DispatchQueue.main.async {
+                    self.qrViewController?.dismiss(animated: true)
+                    self.qrViewController = nil
+                    print("✅ User successfully logged in")
+                    self.openChatsScreen()
+                }
             },
             onError: { error in
                 DispatchQueue.main.async {

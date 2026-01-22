@@ -79,9 +79,7 @@ final class ChatsView: UIView {
         ])
     }
     
-    // TODO: Configure real data
-    func configure(/*with user: UserProfile*/) {
-//        headerView.titleLabel.text = user.chattingNickname
-        headerView.configure("servise_car666")
+    func configure(with user: UserProfile) {
+        headerView.configure(user.chattingNickname)
     }
 }
