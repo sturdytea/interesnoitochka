@@ -31,7 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = AuthorizationViewController()
+        let navigationController = UINavigationController(rootViewController: AuthorizationViewController())
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
         self.window = window
         return true

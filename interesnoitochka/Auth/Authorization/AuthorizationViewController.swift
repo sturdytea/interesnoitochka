@@ -98,9 +98,9 @@ final class AuthorizationViewController: UIViewController {
     }
     
     private func openChatsScreen() {
-        let vc = ChatsViewController()
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        let chatsViewController = ChatsViewController()
+        chatsViewController.modalPresentationStyle = .fullScreen
+        navigationController?.setViewControllers([chatsViewController],animated: true)
     }
     
     @objc private func registerTapped() {

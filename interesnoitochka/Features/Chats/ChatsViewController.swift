@@ -29,11 +29,22 @@ final class ChatsViewController: UIViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.rowHeight = UITableView.automaticDimension
         contentView.tableView.estimatedRowHeight = 72
+        contentView.tableView.delegate = self
         if let user = UserStore.shared.profile {
             contentView.configure(with: user)
         }
         bind()
         viewModel.load()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func bind() {
@@ -59,23 +70,26 @@ final class ChatsViewController: UIViewController {
     }
 }
 
-extension ChatsViewController: UITableViewDataSource {
+extension ChatsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.chats.count
     }
     
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: ChatCell.reuseId,
             for: indexPath
         ) as! ChatCell
-        
         cell.configure(with: viewModel.chats[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let chat = viewModel.chats[indexPath.row]
+        let chatViewController = ChatViewController()
+        // TODO: Use chat / chatId
+        navigationController?.pushViewController(chatViewController, animated: true)
     }
 }
