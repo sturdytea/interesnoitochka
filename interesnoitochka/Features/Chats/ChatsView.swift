@@ -18,6 +18,8 @@ final class ChatsView: UIView {
     private lazy var headerView = ChatsHeaderView()
     lazy var searchView = SearchView()
     
+    lazy var segmentedView = ChatsSegmentedView()
+    
     lazy var tableView: UITableView = {
         let table = UITableView()
         table.separatorStyle = .none
@@ -44,11 +46,13 @@ final class ChatsView: UIView {
         let stack = UIStackView(arrangedSubviews: [
             headerView,
             searchView,
+            segmentedView
         ])
         stack.axis = .vertical
         stack.spacing = 12
         [
             stack,
+            segmentedView,
             headerView,
             searchView,
             tableView
@@ -72,10 +76,14 @@ final class ChatsView: UIView {
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             // Header
-            headerView.heightAnchor.constraint(equalToConstant: 44),
+            headerView.heightAnchor.constraint(equalToConstant: 40),
             
             // Search
-            searchView.heightAnchor.constraint(equalToConstant: 44)
+            searchView.heightAnchor.constraint(equalToConstant: 40),
+            
+            // Segmented
+            segmentedView.heightAnchor.constraint(equalToConstant: 40),
+
         ])
     }
     
