@@ -11,30 +11,33 @@
 
 final class ChatsViewModel {
     
+    private let userService = UserService()
     private(set) var chats: [ChatPreview] = []
     
+    var onUserFound: ((SearchUser) -> Void)?
+    var onUserNotFound: (() -> Void)?
     var onUpdate: (() -> Void)?
     
-    func load() {
-        // TODO: Replace this mock 
-        // ВРЕМЕННО, чтобы проверить UI
-        chats = [
-            ChatPreview(
-                id: "1",
-                title: "test_chat",
-                lastMessage: "Hello 👋",
-                dateText: "now",
-                avatarURL: nil,
-                unreadCount: 2,
-                isOnline: true,
-                isVerified: false
-            )
-        ]
-        
+    func reload() {
+        chats = ChatsStore.shared.chats.sorted {
+            $0.date > $1.date
+        }
         onUpdate?()
     }
     
-    func search(_: String) {
-        // TODO: Implement logic
+    func search(_ username: String) {
+        userService.searchUsers(telegramUsername: username) { [weak self] result in
+            switch result {
+            case .success(let users):
+                if let user = users.first {
+                    self?.onUserFound?(user)
+                } else {
+                    self?.onUserNotFound?()
+                }
+                
+            case .failure:
+                self?.onUserNotFound?()
+            }
+        }
     }
 }

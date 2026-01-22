@@ -12,6 +12,8 @@
 import UIKit
 
 final class EmptyChatView: UIView {
+    
+    
 
     // MARK: - Init
     

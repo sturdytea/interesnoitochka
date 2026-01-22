@@ -130,13 +130,13 @@ final class ChatCell: UITableViewCell {
         ])
     }
     
-    // TODO: Configure real data
     func configure(with chat: ChatPreview) {
-        titleLabel.text = chat.title
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        titleLabel.text = chat.username
         messageLabel.text = chat.lastMessage
-        dateLabel.text = "∙ " + chat.dateText
+        dateLabel.text = "∙ " + formatter.string(from: chat.date)
         isRead = true
-        unreadBadge.isHidden = chat.unreadCount == 0
-        unreadBadge.text = "\(chat.unreadCount)"
     }
 }

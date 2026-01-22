@@ -12,12 +12,10 @@
 import Foundation
 
 struct ChatPreview {
-    let id: String
-    let title: String
+    let id: Int
+    let userId: Int
+    let username: String
     let lastMessage: String
-    let dateText: String
+    let date: Date
     let avatarURL: URL?
-    let unreadCount: Int
-    let isOnline: Bool
-    let isVerified: Bool
 }

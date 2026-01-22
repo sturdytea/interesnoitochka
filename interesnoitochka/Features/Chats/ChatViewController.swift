@@ -14,8 +14,20 @@ import UIKit
 final class ChatViewController: UIViewController {
     
     private let contentView = ChatView()
-    private let viewModel = ChatViewModel()
+    private let viewModel: ChatViewModel
     
+    // MARK: - Init
+    
+    init(userId: Int, username: String, avatarURL: URL?) {
+        self.viewModel = ChatViewModel(userId: userId, username: username, avatarURL: avatarURL)
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
     override func loadView() {
         view = contentView
     }
